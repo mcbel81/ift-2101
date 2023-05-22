@@ -1,0 +1,220 @@
+#!/bin/bash
+
+# Fonction pour afficher le menu principal
+afficher_menu_principal() {
+    clear
+    echo "===== MENU PRINCIPAL ====="
+    echo "1. Système"
+    echo "2. Réseau"
+    echo "3. Disque"
+    echo "4. <À venir>"
+    echo "5. Quitter"
+}
+
+# Fonction pour afficher le sous-menu 1
+afficher_sous_menu1() {
+    clear
+    echo "===== SOUS-MENU: Système ====="
+    echo "1. Top"
+    echo "2. Processeur"
+    echo "3. Fichiers ouvert"
+    echo "4. Retour au menu principal"
+}
+
+# Fonction pour afficher le sous-menu 2
+afficher_sous_menu2() {
+    clear
+    echo "===== SOUS-MENU: Disque ====="
+    echo "1. Sur-utilisation"
+    echo "2. Fichiers"
+    echo "3. Recherche"
+    echo "4. Retour au menu principal"
+}
+
+# Fonction pour afficher le sous-menu 3
+afficher_sous_menu3() {
+    clear
+    echo "===== SOUS-MENU: Réseau ====="
+    echo "1. Socket ouverts"
+    echo "2. Page distante"
+    echo "3. Socket en écoute localement"
+    echo "4. Connexion réseau"
+    echo "5. Retour au menu principal"
+}
+
+afficher_sous_menu4() {
+    clear
+    echo "===== SOUS-MENU: 4 (autre) ====="
+    echo "1. à déterminer"
+    echo "2. à déterminer"
+    echo "3. à déterminer"
+    echo "4. à déterminer"
+    echo "5. Retour au menu principal"
+}
+
+# Fonction pour lire l'entrée de l'utilisateur
+lire_choix() {
+    if [ $# -eq 0  ] 
+        then
+            read -p "Votre choix : " choix
+            echo "$choix"
+    elif [ $# -eq 1 ]
+        then choix=$1
+    fi
+}
+
+# Boucle principale du menu
+while true; do
+    afficher_menu_principal
+    lire_choix $1
+
+    case $choix in
+        1)
+            # Afficher le sous-menu 1: Système
+            while true; do
+                afficher_sous_menu1
+                lire_choix $2
+
+                case $choix in
+                    1)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    2)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    3)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    4)
+                        break 2  # Retour au menu principal
+                        ;;
+                    *)
+                        echo "Choix invalide. Veuillez réessayer."
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                esac
+            done
+            ;;
+        2)
+            # Afficher le sous-menu 2: Disque
+            while true; do
+                afficher_sous_menu2
+                lire_choix $2
+
+                case $choix in
+                    1)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    2)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    3)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    4)
+                        break 2  # Retour au menu principal
+                        ;;
+                    *)
+                        echo "Choix invalide. Veuillez réessayer."
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                esac
+            done
+            ;;
+        3)
+            # Afficher le sous-menu 3: Réseau
+            while true; do
+                afficher_sous_menu3
+                lire_choix $2
+
+                case $choix in
+                    1)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    2)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    3)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    4)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    5)
+                        break 2  # Retour au menu principal
+                        ;;
+                    *)
+                        echo "Choix invalide. Veuillez réessayer."
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                esac
+            done
+            ;;
+        4)
+            # Afficher le sous-menu 4:(à déterminer)
+            while true; do
+                afficher_sous_menu4
+                lire_choix $2
+
+                case $choix in
+                    1)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    2)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    3)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    4)
+                        clear
+                        echo "*********************CODE ICI***********************"
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                    5)
+                        break 2  # Retour au menu principal
+                        ;;
+                    *)
+                        echo "Choix invalide. Veuillez réessayer."
+                        read -p "Appuyez sur une touche pour continuer..."
+                        ;;
+                esac
+            done
+            ;;
+        5)
+            # Quitter le script (5)
+            echo "Au revoir!"
+            exit 0
+            ;;
+        *)
+            echo "Choix invalide. Veuillez réessayer."
+            read -p "Appuyez sur une touche pour continuer..."
+            ;;
+    esac
+done
