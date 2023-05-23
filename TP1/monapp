@@ -76,6 +76,7 @@ while true; do
                 afficher_sous_menu1
                 lire_choix $2
 
+
                 case $choix in
                     1)
                         clear
