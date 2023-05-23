@@ -68,52 +68,61 @@ lire_choix() {
 while true; do
     afficher_menu_principal
     lire_choix $1
-
+    should_break=false
     case $choix in
-        1)
-            # Afficher le sous-menu 1: Système
-            while true; do
-                afficher_sous_menu1
-                lire_choix $2
+    1)
+        # Afficher le sous-menu 1: Système
+        while true; do
+            if $should_break; then 
+                should_break=false
+                break 
+            fi
 
+            afficher_sous_menu1
+            lire_choix $2
 
-                case $choix in
-                    1)
-                        clear
-                        refresh=${2:-1}  # Use second argument as refresh count or default to 1
-                        top -b -n $refresh
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    2)
-                        clear
-                        lscpu
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    3)
-                        clear
-                        service=${2:-}  # Use second argument as service or default to empty string
-                        if [ -z "$service" ]; then
-                            lsof
-                        else
-                            lsof | grep $service
-                        fi
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    4)
-                        break 2  # Retour au menu principal
-                        ;;
-                    *)
-                        echo "Choix invalide. Veuillez réessayer."
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                esac
+            case $choix in
+                1)
+                    clear
+                    refresh=${2:-1}  # Use second argument as refresh count or default to 1
+                    top -b -n $refresh
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                2)
+                    clear
+                    lscpu
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                3)
+                    clear
+                    service=${2:-}  # Use second argument as service or default to empty string
+                    if [ -z "$service" ]; then
+                        lsof
+                    else
+                        lsof | grep $service
+                    fi
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                4)
+                    should_break=true
+                    ;;
+                *)
+                    echo "Choix invalide. Veuillez réessayer."
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+            esac
+        done
+        ;;
+    
 
-
-            done
-            ;;
         2)
             # Afficher le sous-menu 2: Disque
-            while true; do
+                    while true; do
+            if $should_break; then 
+                should_break=false
+                break 
+            fi
+            
                 afficher_sous_menu2
                 lire_choix $2
 
@@ -134,7 +143,7 @@ while true; do
                         read -p "Appuyez sur une touche pour continuer..."
                         ;;
                     4)
-                        break 2  # Retour au menu principal
+                        should_break=true
                         ;;
                     *)
                         echo "Choix invalide. Veuillez réessayer."
@@ -145,7 +154,11 @@ while true; do
             ;;
         3)
             # Afficher le sous-menu 3: Réseau
-            while true; do
+                    while true; do
+            if $should_break; then 
+                should_break=false
+                break 
+            fi
                 afficher_sous_menu3
                 lire_choix $2
 
@@ -171,7 +184,7 @@ while true; do
                         read -p "Appuyez sur une touche pour continuer..."
                         ;;
                     5)
-                        break 2  # Retour au menu principal
+                    should_break=true
                         ;;
                     *)
                         echo "Choix invalide. Veuillez réessayer."
@@ -182,7 +195,11 @@ while true; do
             ;;
         4)
             # Afficher le sous-menu 4:(à déterminer)
-            while true; do
+                    while true; do
+            if $should_break; then 
+                should_break=false
+                break 
+            fi
                 afficher_sous_menu4
                 lire_choix $2
 
@@ -208,7 +225,7 @@ while true; do
                         read -p "Appuyez sur une touche pour continuer..."
                         ;;
                     5)
-                        break 2  # Retour au menu principal
+                    should_break=true
                         ;;
                     *)
                         echo "Choix invalide. Veuillez réessayer."
