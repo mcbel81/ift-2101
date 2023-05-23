@@ -79,17 +79,23 @@ while true; do
                 case $choix in
                     1)
                         clear
-                        echo "*********************CODE ICI***********************"
+                        refresh=${2:-1}  # Use second argument as refresh count or default to 1
+                        top -b -n $refresh
                         read -p "Appuyez sur une touche pour continuer..."
                         ;;
                     2)
                         clear
-                        echo "*********************CODE ICI***********************"
+                        lscpu
                         read -p "Appuyez sur une touche pour continuer..."
                         ;;
                     3)
                         clear
-                        echo "*********************CODE ICI***********************"
+                        service=${2:-}  # Use second argument as service or default to empty string
+                        if [ -z "$service" ]; then
+                            lsof
+                        else
+                            lsof | grep $service
+                        fi
                         read -p "Appuyez sur une touche pour continuer..."
                         ;;
                     4)
@@ -100,6 +106,8 @@ while true; do
                         read -p "Appuyez sur une touche pour continuer..."
                         ;;
                 esac
+
+
             done
             ;;
         2)
