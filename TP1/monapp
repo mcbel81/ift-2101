@@ -115,83 +115,103 @@ while true; do
         ;;
     
 
-        2)
-            # Afficher le sous-menu 2: Disque
-                    while true; do
+            2)
+        # Afficher le sous-menu 2: Disque
+        while true; do
             if $should_break; then 
                 should_break=false
                 break 
             fi
-            
-                afficher_sous_menu2
-                lire_choix $2
 
-                case $choix in
-                    1)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    2)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    3)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    4)
-                        should_break=true
-                        ;;
-                    *)
-                        echo "Choix invalide. Veuillez réessayer."
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                esac
-            done
-            ;;
+            afficher_sous_menu2
+            lire_choix $2
+
+            case $choix in
+                1)
+                    clear
+                    find / -type f -size +100M
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                2)
+                    clear
+                    df -h --block-size=1024
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                3)
+                    clear
+                    read -p "Entrez le terme à rechercher: " recherche_term
+                    if [ -z "$recherche_term" ]; then
+                        echo "Veuillez indiquer un terme de recherche."
+                    else
+                        find / -type f -name "*$recherche_term*"
+                    fi
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                4)
+                    should_break=true
+                    ;;
+                *)
+                    echo "Choix invalide. Veuillez réessayer."
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+            esac
+        done
+        ;;
         3)
             # Afficher le sous-menu 3: Réseau
-                    while true; do
-            if $should_break; then 
-                should_break=false
-                break 
-            fi
-                afficher_sous_menu3
-                lire_choix $2
+            while true; do
+                if $should_break; then 
+                    should_break=false
+                    break 
+                fi
 
-                case $choix in
-                    1)
+                
+            afficher_sous_menu3
+            lire_choix $2
+
+            case $choix in
+                1)
+                    clear
+                    read -p "Entrez une adresse IP: " ip_address
+                    if [ -z "$ip_address" ]; then
+                        echo "Veuillez indiquer une adresse IP."
+                    else
+                        nmap $ip_address
+                    fi
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                2)
+                    clear
+                    read -p "Entrez une adresse IP: " ip_address
+                    if [ -z "$ip_address" ]; then
+                        echo "Veuillez indiquer une adresse IP."
+                    else
+                        curl $ip_address
+                    fi
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                3)
+                    clear
+                    netstat -ltnp
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                4)
+                    clear
+                    while true; do
                         clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    2)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    3)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    4)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    5)
-                    should_break=true
-                        ;;
-                    *)
-                        echo "Choix invalide. Veuillez réessayer."
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                esac
-            done
+                        netstat -tn | tail -n 10
+                        sleep 5
+                    done
+                    ;;
+                5)
+                            should_break=true
+                    ;;
+                *)
+                    echo "Choix invalide. Veuillez réessayer."
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+            esac
+        done
             ;;
         4)
             # Afficher le sous-menu 4:(à déterminer)
