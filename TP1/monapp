@@ -233,7 +233,7 @@ while true; do
                     ;;
                 2)
                     echo "Journal d'erreurs du système:"
-                    sudo journalctl -p 3 -xb | tail -n 20
+                    sudo journalctl -p err | tail -n 20
                     read -p "Appuyez sur une touche pour continuer..."
                     ;;
                 3)
