@@ -6,8 +6,8 @@ afficher_menu_principal() {
     clear
     echo "===== MENU PRINCIPAL ====="
     echo "1. Système"
-    echo "2. Réseau"
-    echo "3. Disque"
+    echo "2. Disque"
+    echo "3. Réseau"
     echo "4. Journalisation"
     echo "5. Quitter"
 }
@@ -42,7 +42,7 @@ afficher_sous_menu3() {
     echo "4. Connexion réseau"
     echo "5. Retour au menu principal"
 }
-
+# Fonction pour afficher le sous-menu 4
 afficher_sous_menu4() {
     clear
     echo "===== SOUS-MENU: 4 Journalisation ====="
