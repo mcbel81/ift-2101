@@ -6,9 +6,9 @@ afficher_menu_principal() {
     clear
     echo "===== MENU PRINCIPAL ====="
     echo "1. Système"
-    echo "2. Réseau"
-    echo "3. Disque"
-    echo "4. <À venir>"
+    echo "2. Disque"
+    echo "3. Réseau"
+    echo "4. Journalisation"
     echo "5. Quitter"
 }
 
@@ -42,15 +42,17 @@ afficher_sous_menu3() {
     echo "4. Connexion réseau"
     echo "5. Retour au menu principal"
 }
-
+# Fonction pour afficher le sous-menu 4
 afficher_sous_menu4() {
     clear
-    echo "===== SOUS-MENU: 4 (autre) ====="
-    echo "1. à déterminer"
-    echo "2. à déterminer"
-    echo "3. à déterminer"
-    echo "4. à déterminer"
-    echo "5. Retour au menu principal"
+    echo "===== SOUS-MENU: 4 Journalisation ====="
+    echo "1. Afficher les dernières entrées du journal système"
+    echo "2. Afficher le journal d'erreurs du système"
+    echo "3. Afficher le journal pour une application spécifique"
+    echo "4. Rechercher dans le journal pour un terme spécifique"
+    echo "5. Revenir au Menu principal"
+    echo ""
+    echo -n "Entrez votre choix: "
 }
 
 # Fonction pour lire l'entrée de l'utilisateur
@@ -68,145 +70,195 @@ lire_choix() {
 while true; do
     afficher_menu_principal
     lire_choix $1
-
+    should_break=false
     case $choix in
-        1)
-            # Afficher le sous-menu 1: Système
-            while true; do
-                afficher_sous_menu1
-                lire_choix $2
+    1)
+        # Afficher le sous-menu 1: Système
+        while true; do
+            if $should_break; then 
+                should_break=false
+                break 
+            fi
 
-                case $choix in
-                    1)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    2)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    3)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    4)
-                        break 2  # Retour au menu principal
-                        ;;
-                    *)
-                        echo "Choix invalide. Veuillez réessayer."
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                esac
-            done
-            ;;
-        2)
-            # Afficher le sous-menu 2: Disque
-            while true; do
-                afficher_sous_menu2
-                lire_choix $2
+            afficher_sous_menu1
+            lire_choix $2
 
-                case $choix in
-                    1)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    2)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    3)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    4)
-                        break 2  # Retour au menu principal
-                        ;;
-                    *)
-                        echo "Choix invalide. Veuillez réessayer."
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                esac
-            done
-            ;;
+            case $choix in
+                1)
+                    clear
+                    refresh=${2:-1}  # Use second argument as refresh count or default to 1
+                    top -b -n $refresh
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                2)
+                    clear
+                    lscpu
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                3)
+                    clear
+                    service=${2:-}  # Use second argument as service or default to empty string
+                    if [ -z "$service" ]; then
+                        lsof
+                    else
+                        lsof | grep $service
+                    fi
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                4)
+                    should_break=true
+                    ;;
+                *)
+                    echo "Choix invalide. Veuillez réessayer."
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+            esac
+        done
+        ;;
+    
+
+            2)
+        # Afficher le sous-menu 2: Disque
+        while true; do
+            if $should_break; then 
+                should_break=false
+                break 
+            fi
+
+            afficher_sous_menu2
+            lire_choix $2
+
+            case $choix in
+                1)
+                    clear
+                    find / -type f -size +100M
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                2)
+                    clear
+                    df -h --block-size=1024
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                3)
+                    clear
+                    read -p "Entrez le terme à rechercher: " recherche_term
+                    if [ -z "$recherche_term" ]; then
+                        echo "Veuillez indiquer un terme de recherche."
+                    else
+                        find / -type f -name "*$recherche_term*"
+                    fi
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                4)
+                    should_break=true
+                    ;;
+                *)
+                    echo "Choix invalide. Veuillez réessayer."
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+            esac
+        done
+        ;;
         3)
             # Afficher le sous-menu 3: Réseau
             while true; do
-                afficher_sous_menu3
-                lire_choix $2
+                if $should_break; then 
+                    should_break=false
+                    break 
+                fi
 
-                case $choix in
-                    1)
+                
+            afficher_sous_menu3
+            lire_choix $2
+
+            case $choix in
+                1)
+                    clear
+                    read -p "Entrez une adresse IP: " ip_address
+                    if [ -z "$ip_address" ]; then
+                        echo "Veuillez indiquer une adresse IP."
+                    else
+                        nmap $ip_address
+                    fi
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                2)
+                    clear
+                    read -p "Entrez une adresse IP: " ip_address
+                    if [ -z "$ip_address" ]; then
+                        echo "Veuillez indiquer une adresse IP."
+                    else
+                        curl $ip_address
+                    fi
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                3)
+                    clear
+                    netstat -ltnp
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                4)
+                    clear
+                    while true; do
                         clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    2)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    3)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    4)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    5)
-                        break 2  # Retour au menu principal
-                        ;;
-                    *)
-                        echo "Choix invalide. Veuillez réessayer."
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                esac
-            done
+                        netstat -tn | tail -n 10
+                        sleep 5
+                    done
+                    ;;
+                5)
+                            should_break=true
+                    ;;
+                *)
+                    echo "Choix invalide. Veuillez réessayer."
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+            esac
+        done
             ;;
         4)
-            # Afficher le sous-menu 4:(à déterminer)
-            while true; do
+            # Afficher le sous-menu 4: Journalisation
+                    while true; do
+            if $should_break; then 
+                should_break=false
+                break 
+            fi
                 afficher_sous_menu4
                 lire_choix $2
 
-                case $choix in
-                    1)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    2)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    3)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    4)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    5)
-                        break 2  # Retour au menu principal
-                        ;;
-                    *)
-                        echo "Choix invalide. Veuillez réessayer."
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                esac
-            done
+            case $choix in
+                1)
+                    echo "Dernières entrées du journal système:"
+                    sudo journalctl | tail -n 20
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                2)
+                    echo "Journal d'erreurs du système:"
+                    sudo journalctl -p err | tail -n 20
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                3)
+                    echo -n "Veuillez entrer le nom de l'application : "
+                    read app
+                    echo "Journal pour $app:"
+                    sudo journalctl -u $app -n 2
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                4)
+                    echo -n "Veuillez entrer un terme à rechercher dans le journal : "
+                    read terme
+                    echo "Recherche de '$terme' dans le journal :"
+                    sudo journalctl | grep $terme
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                5)
+                    should_break=true
+                    ;;
+                *)
+                    echo "Choix invalide. Veuillez réessayer."
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+            esac
+        done
             ;;
         5)
             # Quitter le script (5)
