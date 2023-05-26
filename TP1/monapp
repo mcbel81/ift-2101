@@ -45,12 +45,14 @@ afficher_sous_menu3() {
 
 afficher_sous_menu4() {
     clear
-    echo "===== SOUS-MENU: 4 (autre) ====="
-    echo "1. à déterminer"
-    echo "2. à déterminer"
-    echo "3. à déterminer"
-    echo "4. à déterminer"
-    echo "5. Retour au menu principal"
+    echo "===== SOUS-MENU: 4 Journalisation ====="
+    echo "1. Afficher les dernières entrées du journal système"
+    echo "2. Afficher le journal d'erreurs du système"
+    echo "3. Afficher le journal pour une application spécifique"
+    echo "4. Rechercher dans le journal pour un terme spécifique"
+    echo "5. Revenir au Menu principal"
+    echo ""
+    echo -n "Entrez votre choix: "
 }
 
 # Fonction pour lire l'entrée de l'utilisateur
@@ -223,36 +225,40 @@ while true; do
                 afficher_sous_menu4
                 lire_choix $2
 
-                case $choix in
-                    1)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    2)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    3)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    4)
-                        clear
-                        echo "*********************CODE ICI***********************"
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                    5)
+            case $choix in
+                1)
+                    echo "Dernières entrées du journal système:"
+                    sudo journalctl | tail -n 20
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                2)
+                    echo "Journal d'erreurs du système:"
+                    sudo journalctl -p 3 -xb | tail -n 20
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                3)
+                    echo -n "Veuillez entrer le nom de l'application : "
+                    read app
+                    echo "Journal pour $app:"
+                    sudo journalctl -u $app -n 2
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                4)
+                    echo -n "Veuillez entrer un terme à rechercher dans le journal : "
+                    read terme
+                    echo "Recherche de '$terme' dans le journal :"
+                    sudo journalctl | grep $terme
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+                5)
                     should_break=true
-                        ;;
-                    *)
-                        echo "Choix invalide. Veuillez réessayer."
-                        read -p "Appuyez sur une touche pour continuer..."
-                        ;;
-                esac
-            done
+                    ;;
+                *)
+                    echo "Choix invalide. Veuillez réessayer."
+                    read -p "Appuyez sur une touche pour continuer..."
+                    ;;
+            esac
+        done
             ;;
         5)
             # Quitter le script (5)
