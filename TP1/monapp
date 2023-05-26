@@ -8,7 +8,7 @@ afficher_menu_principal() {
     echo "1. Système"
     echo "2. Réseau"
     echo "3. Disque"
-    echo "4. <À venir>"
+    echo "4. Journalisation"
     echo "5. Quitter"
 }
 
@@ -216,7 +216,7 @@ while true; do
         done
             ;;
         4)
-            # Afficher le sous-menu 4:(à déterminer)
+            # Afficher le sous-menu 4: Journalisation
                     while true; do
             if $should_break; then 
                 should_break=false
