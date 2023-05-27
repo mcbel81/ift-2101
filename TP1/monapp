@@ -174,8 +174,10 @@ while true; do
             case $choix in
                 1)
                     clear
-                    read -p "Entrez une adresse IP: " ip_address
-                    if [ -z "$ip_address" ]; then
+                    read -p "Entrez une adresse IP ou 'q' pour quitter: " ip_address
+                    if [ "$ip_address" = "q" ]; then
+                        continue
+                    elif [ -z "$ip_address" ]; then
                         echo "Veuillez indiquer une adresse IP."
                     else
                         nmap $ip_address
@@ -184,8 +186,10 @@ while true; do
                     ;;
                 2)
                     clear
-                    read -p "Entrez une adresse IP: " ip_address
-                    if [ -z "$ip_address" ]; then
+                    read -p "Entrez une adresse IP ou 'q' pour quitter: " ip_address
+                    if [ "$ip_address" = "q" ]; then
+                        continue
+                    elif [ -z "$ip_address" ]; then
                         echo "Veuillez indiquer une adresse IP."
                     else
                         curl $ip_address
@@ -200,9 +204,12 @@ while true; do
                 4)
                     clear
                     while true; do
-                        clear
                         netstat -tn | tail -n 10
-                        sleep 5
+                        read -t 5 -p "Appuyez sur 'q' puis sur 'Entrée' pour quitter, sinon les données seront actualisées dans 5 secondes... " sub_option
+                        clear
+                        if [ "$sub_option" = "q" ]; then
+                            break
+                        fi
                     done
                     ;;
                 5)
