@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Fonction pour afficher le menu principal
 afficher_menu_principal() {
     clear
@@ -18,7 +17,7 @@ afficher_sous_menu1() {
     echo "===== SOUS-MENU: Système ====="
     echo "1. Top"
     echo "2. Processeur"
-    echo "3. Fichiers ouvert"
+    echo "3. Fichiers ouverts"
     echo "4. Retour au menu principal"
 }
 
@@ -42,6 +41,7 @@ afficher_sous_menu3() {
     echo "4. Connexion réseau"
     echo "5. Retour au menu principal"
 }
+
 # Fonction pour afficher le sous-menu 4
 afficher_sous_menu4() {
     clear
@@ -57,12 +57,13 @@ afficher_sous_menu4() {
 
 # Fonction pour lire l'entrée de l'utilisateur
 lire_choix() {
-    if [ $# -eq 0  ] 
-        then
-            read -p "Votre choix : " choix
-            echo "$choix"
+    if [ $# -eq 0 ]
+    then
+        read -p "Votre choix : " choix
+        echo "$choix"
     elif [ $# -eq 1 ]
-        then choix=$1
+    then
+        choix=$1
     fi
 }
 
@@ -75,226 +76,223 @@ while true; do
     1)
         # Afficher le sous-menu 1: Système
         while true; do
-            if $should_break; then 
+            if $should_break; then
                 should_break=false
-                break 
+                break
             fi
 
             afficher_sous_menu1
             lire_choix $2
 
-    case $choix in
-        1)
-            clear
-            read -p "Entrez le nombre de rafraîchissements ou appuyez simplement sur Entrée pour un affichage continu : " refresh
-            if [ -z "$refresh" ]; then
-                echo "Appuyez sur 'q' pour arrêter l'affichage..."
-                top -H  # display process threads
-            else
-                for i in $(seq 1 $refresh); do
-                    clear
-                    echo "Refresh $i of $refresh"
-                    top -b -n 1 -H
-                    sleep 1
-                done
-                echo "Terminé avec les actualisations."
-            fi
-            read -p "Appuyez sur une touche pour continuer..."
-            ;;
-
-
-
-                2)
-                    clear
-                    lscpu
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
-        3)
-            clear
-            read -p "Entrez le nom du service pour afficher ses fichiers ouverts, ou appuyez simplement sur Entrée pour afficher tous les fichiers ouverts : " service
-            if [ -z "$service" ]; then
-                lsof
-            else
-                lsof | grep $service
-            fi
-            read -p "Appuyez sur une touche pour continuer..."
-            ;;
-                4)
-                    should_break=true
-                    ;;
-                *)
-                    echo "Choix invalide. Veuillez réessayer."
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
+            case $choix in
+            1)
+                clear
+                read -p "Entrez le nombre de rafraîchissements ou appuyez simplement sur Entrée pour un affichage continu : " refresh
+                if [ -z "$refresh" ]; then
+                    echo "Appuyez sur 'q' pour arrêter l'affichage..."
+                    top -H  # display process threads
+                else
+                    for i in $(seq 1 $refresh); do
+                        clear
+                        echo "Refresh $i of $refresh"
+                        top -b -n 1 -H
+                        sleep 1
+                    done
+                    echo "Terminé avec les actualisations."
+                fi
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            2)
+                clear
+                lscpu
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            3)
+                clear
+                read -p "Entrez le nom du service pour afficher ses fichiers ouverts, ou appuyez simplement sur Entrée pour afficher tous les fichiers ouverts : " service
+                if [ -z "$service" ]; then
+                    lsof
+                else
+                    lsof | grep $service
+                fi
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            4)
+                should_break=true
+                ;;
+            *)
+                echo "Choix invalide. Veuillez réessayer."
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
             esac
         done
         ;;
-    
-
-            2)
+    2)
         # Afficher le sous-menu 2: Disque
         while true; do
-            if $should_break; then 
+            if $should_break; then
                 should_break=false
-                break 
+                break
             fi
 
             afficher_sous_menu2
             lire_choix $2
 
             case $choix in
-                1)
-                    clear
-                    find / -type f -size +100M
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
-                2)
-                    clear
-                    df -h --block-size=1024
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
-                3)
-                    clear
-                    read -p "Entrez le terme à rechercher: " recherche_term
-                    if [ -z "$recherche_term" ]; then
-                        echo "Veuillez indiquer un terme de recherche."
-                    else
-                        find / -type f -name "*$recherche_term*"
-                    fi
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
-                4)
-                    should_break=true
-                    ;;
-                *)
-                    echo "Choix invalide. Veuillez réessayer."
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
+            1)
+                clear
+                find / -type f -size +100M
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            2)
+                clear
+                df -h --block-size=1024
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            3)
+                clear
+                read -p "Entrez le terme à rechercher: " recherche_term
+                if [ -z "$recherche_term" ]; then
+                    echo "Veuillez indiquer un terme de recherche."
+                else
+                    find / -type f -name "*$recherche_term*"
+                fi
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            4)
+                should_break=true
+                ;;
+            *)
+                echo "Choix invalide. Veuillez réessayer."
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
             esac
         done
         ;;
-        3)
-            # Afficher le sous-menu 3: Réseau
-            while true; do
-                if $should_break; then 
-                    should_break=false
-                    break 
-                fi
+    3)
+        # Afficher le sous-menu 3: Réseau
+        while true; do
+            if $should_break; then
+                should_break=false
+                break
+            fi
 
-                
             afficher_sous_menu3
             lire_choix $2
 
             case $choix in
-                                1)
-                    clear
-                    while true; do
-                        read -p "Entrez une adresse IP ou 'q' pour quitter: " ip_address
-                        if [ "$ip_address" = "q" ]; then
-                            break
-                        elif ! ping -c 1 -q "$ip_address" >/dev/null 2>&1; then
-                            echo "Veuillez indiquer une adresse IP valide."
-                        else
-                            nmap $ip_address
-                            read -p "Appuyez sur une touche pour continuer..."
-                            break
-                        fi
-                    done
-                    ;;
-                2)
-                    clear
-                    while true; do
-                        read -p "Entrez une adresse IP ou 'q' pour quitter: " url
-                        if [ "$url" = "q" ]; then
-                            break
-                        elif ! curl -Is "$url" >/dev/null 2>&1; then
-                            echo "Veuillez indiquer une adresse IP valide."
-                        else
-                            curl $url
-                            read -p "Appuyez sur une touche pour continuer..."
-                            break
-                        fi
-                    done
-                    ;;
-                3)
-                    clear
-                    netstat -ltnp
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
-                4)
-                    clear
-                    while true; do
-                        netstat -tn | tail -n 10
-                        read -t 5 -p "Appuyez sur 'q' puis sur 'Entrée' pour quitter, sinon les données seront actualisées dans 5 secondes... " sub_option
-                        clear
-                        if [ "$sub_option" = "q" ]; then
-                            break
-                        fi
-                    done
-                    ;;
-                5)
-                            should_break=true
-                    ;;
-                *)
-                    echo "Choix invalide. Veuillez réessayer."
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
+            1)
+                clear
+                while true; do
+                    read -p "Entrez une adresse IP ou 'q' pour quitter: " ip_address
+                    if [ "$ip_address" = "q" ]; then
+                        break
+                    elif ! ping -c 1 -q "$ip_address" >/dev/null 2>&1; then
+                        echo "Veuillez indiquer une adresse IP valide."
+                    else
+                        nmap $ip_address
+                        read -p "Appuyez sur une touche pour continuer..."
+                        break
+                    fi
+                done
+                ;;
+            2)
+                clear
+                while true; do
+                    read -p "Entrez une adresse IP ou 'q' pour quitter: " url
+                    if [ "$url" = "q" ]; then
+                        break
+                    elif ! curl -Is "$url" >/dev/null 2>&1; then
+                        echo "Veuillez indiquer une adresse IP valide."
+                    else
+                        curl $url
+                        read -p "Appuyez sur une touche pour continuer..."
+                        break
+                    fi
+                done
+                ;;
+            3)
+                clear
+                netstat -ltnp
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            4)
+		clear
+		while true; do
+		    netstat -tn | awk 'NR<=2; NR>2 { line[NR] = $0 } END { for(i=NR-9;i<=NR;i++) if(i>2) print line[i] }'
+		    read -t 5 -p "Appuyez sur 'q' puis sur 'Entrée' pour quitter, sinon les données seront actualisées dans 5 secondes... " sub_option
+		    clear
+		    if [ "$sub_option" = "q" ]; then
+			break
+		    fi
+		done
+
+		;;
+
+            5)
+                should_break=true
+                ;;
+            *)
+                echo "Choix invalide. Veuillez réessayer."
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
             esac
         done
-            ;;
-        4)
-            # Afficher le sous-menu 4: Journalisation
-                    while true; do
-            if $should_break; then 
+        ;;
+    4)
+        # Afficher le sous-menu 4: Journalisation
+        while true; do
+            if $should_break; then
                 should_break=false
-                break 
+                break
             fi
-                afficher_sous_menu4
-                lire_choix $2
+            afficher_sous_menu4
+            lire_choix $2
 
             case $choix in
-                1)
-                    echo "Dernières entrées du journal système:"
-                    sudo journalctl | tail -n 20
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
-                2)
-                    echo "Journal d'erreurs du système:"
-                    sudo journalctl -p err | tail -n 20
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
-                3)
-                    echo -n "Veuillez entrer le nom de l'application : "
-                    read app
-                    echo "Journal pour $app:"
-                    sudo journalctl -u $app -n 2
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
-                4)
-                    echo -n "Veuillez entrer un terme à rechercher dans le journal : "
-                    read terme
-                    echo "Recherche de '$terme' dans le journal :"
-                    sudo journalctl | grep $terme
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
-                5)
-                    should_break=true
-                    ;;
-                *)
-                    echo "Choix invalide. Veuillez réessayer."
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
+            1)
+                echo "Dernières entrées du journal système:"
+                sudo journalctl | tail -n 20
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            2)
+                echo "Journal d'erreurs du système:"
+                sudo journalctl -p err | tail -n 20
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            3)
+                echo -n "Veuillez entrer le nom de l'application : "
+                read app
+                echo "Journal pour $app:"
+                sudo journalctl -u $app -n 2
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            4)
+                echo -n "Veuillez entrer un terme à rechercher dans le journal : "
+                read terme
+                echo "Recherche de '$terme' dans le journal :"
+                sudo journalctl | grep $terme
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
+            5)
+                should_break=true
+                ;;
+            *)
+                echo "Choix invalide. Veuillez réessayer."
+                read -p "Appuyez sur une touche pour continuer..."
+                ;;
             esac
         done
-            ;;
-        5)
-            # Quitter le script (5)
-            echo "Au revoir!"
-            exit 0
-            ;;
-        *)
-            echo "Choix invalide. Veuillez réessayer."
-            read -p "Appuyez sur une touche pour continuer..."
-            ;;
+        ;;
+    5)
+        # Quitter le script (5)
+        echo "Au revoir!"
+        exit 0
+        ;;
+    *)
+        echo "Choix invalide. Veuillez réessayer."
+        read -p "Appuyez sur une touche pour continuer..."
+        ;;
     esac
 done
+
