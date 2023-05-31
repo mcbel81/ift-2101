@@ -187,12 +187,18 @@ while true; do
                     read -p "Entrez une adresse IP ou 'q' pour quitter: " ip_address
                     if [ "$ip_address" = "q" ]; then
                         break
-                    elif ! ping -c 1 -q "$ip_address" >/dev/null 2>&1; then
+                    fi
+                    if [ -z "$(which nmap)" ]; then 
+                        echo "Veuillez installer nmap pour obtenir une réponse"
+                        break
+                    fi
+                    if ! ping -c 1 -q "$ip_address" >/dev/null 2>&1; then
                         echo "Veuillez indiquer une adresse IP valide."
-                    else
+                        else
                         nmap $ip_address
                         read -p "Appuyez sur une touche pour continuer..."
                         break
+                             
                     fi
                 done
                 ;;
