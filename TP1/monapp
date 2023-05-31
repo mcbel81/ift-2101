@@ -83,28 +83,42 @@ while true; do
             afficher_sous_menu1
             lire_choix $2
 
-            case $choix in
-                1)
+    case $choix in
+        1)
+            clear
+            read -p "Entrez le nombre de rafraîchissements ou appuyez simplement sur Entrée pour un affichage continu : " refresh
+            if [ -z "$refresh" ]; then
+                echo "Appuyez sur 'q' pour arrêter l'affichage..."
+                top -H  # display process threads
+            else
+                for i in $(seq 1 $refresh); do
                     clear
-                    refresh=${2:-1}  # Use second argument as refresh count or default to 1
-                    top -b -n $refresh
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
+                    echo "Refresh $i of $refresh"
+                    top -b -n 1 -H
+                    sleep 1
+                done
+                echo "Terminé avec les actualisations."
+            fi
+            read -p "Appuyez sur une touche pour continuer..."
+            ;;
+
+
+
                 2)
                     clear
                     lscpu
                     read -p "Appuyez sur une touche pour continuer..."
                     ;;
-                3)
-                    clear
-                    service=${2:-}  # Use second argument as service or default to empty string
-                    if [ -z "$service" ]; then
-                        lsof
-                    else
-                        lsof | grep $service
-                    fi
-                    read -p "Appuyez sur une touche pour continuer..."
-                    ;;
+        3)
+            clear
+            read -p "Entrez le nom du service pour afficher ses fichiers ouverts, ou appuyez simplement sur Entrée pour afficher tous les fichiers ouverts : " service
+            if [ -z "$service" ]; then
+                lsof
+            else
+                lsof | grep $service
+            fi
+            read -p "Appuyez sur une touche pour continuer..."
+            ;;
                 4)
                     should_break=true
                     ;;
@@ -172,29 +186,35 @@ while true; do
             lire_choix $2
 
             case $choix in
-                1)
+                                1)
                     clear
-                    read -p "Entrez une adresse IP ou 'q' pour quitter: " ip_address
-                    if [ "$ip_address" = "q" ]; then
-                        continue
-                    elif [ -z "$ip_address" ]; then
-                        echo "Veuillez indiquer une adresse IP."
-                    else
-                        nmap $ip_address
-                    fi
-                    read -p "Appuyez sur une touche pour continuer..."
+                    while true; do
+                        read -p "Entrez une adresse IP ou 'q' pour quitter: " ip_address
+                        if [ "$ip_address" = "q" ]; then
+                            break
+                        elif ! ping -c 1 -q "$ip_address" >/dev/null 2>&1; then
+                            echo "Veuillez indiquer une adresse IP valide."
+                        else
+                            nmap $ip_address
+                            read -p "Appuyez sur une touche pour continuer..."
+                            break
+                        fi
+                    done
                     ;;
                 2)
                     clear
-                    read -p "Entrez une adresse IP ou 'q' pour quitter: " ip_address
-                    if [ "$ip_address" = "q" ]; then
-                        continue
-                    elif [ -z "$ip_address" ]; then
-                        echo "Veuillez indiquer une adresse IP."
-                    else
-                        curl $ip_address
-                    fi
-                    read -p "Appuyez sur une touche pour continuer..."
+                    while true; do
+                        read -p "Entrez une adresse IP ou 'q' pour quitter: " url
+                        if [ "$url" = "q" ]; then
+                            break
+                        elif ! curl -Is "$url" >/dev/null 2>&1; then
+                            echo "Veuillez indiquer une adresse IP valide."
+                        else
+                            curl $url
+                            read -p "Appuyez sur une touche pour continuer..."
+                            break
+                        fi
+                    done
                     ;;
                 3)
                     clear
