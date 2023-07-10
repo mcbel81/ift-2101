@@ -1,0 +1,21 @@
+version: "3.0"
+services:
+  apache:
+    container_name: TP3-apache
+    image: php:8.2-apache
+    volumes:
+      - ./src:/var/www/html/
+    ports:
+      - 80:80
+
+  bd:
+    container_name: TP3-bd
+    image: mariadb:latest
+    restart: always
+    ports:
+      - 9906:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: "bdift2101"
+      MYSQL_USER: MYSQL_USER
+      MYSQL_PASSWORD: MYSQL_PASSWORD
