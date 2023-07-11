@@ -39,7 +39,12 @@
 </head>
 <body>
   <h1>Équipe 18</h1>
-    
+    <p>Tableau des villes </p>
+    <?php
+        $mysqli = new mysqli("127.0.0.1","etudiant","ift2023-","equipe18");
+        $result = $mysqli->query("SELECT nom from ville where population=59");
+     ?>
+     <p>La première ville est <?= $result ?></p>   
 
 </body>
 </html>

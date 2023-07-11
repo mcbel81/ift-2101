@@ -1,10 +1,10 @@
 CREATE DATABASE IF NOT EXISTS equipe18;
 
 CREATE TABLE ville {
-    nom varchar(40),
-    region varchar(50),
-    population bigint
+    nom varchar(40) not null,
+    region varchar(50) not null,
+    population bigint default 1
 };
 
 INSERT INTO ville 
-VALUES ("Amqui", "Bas-St-Laurent", 6065), ("Barkmere", "Laurentides", 59);
+VALUES ("Amqui", "Bas-St-Laurent", 6065), ("Barkmere", "Laurentides", 59),("Carignan", "Montérégie", 10959), ("Magog", "Estrie",27354), ("Ville-Marie", "Abitibi-Témiscamingue", 2483);

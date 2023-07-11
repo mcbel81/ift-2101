@@ -6,11 +6,11 @@ services:
     volumes:
       - ./src:/var/www/html/
     ports:
-      - 80:80
+      - 8080:80
 
   bd:
     container_name: TP3-bd
-    image: mariadb:latest
+    image: mariadb
     restart: always
     ports:
       - 9906:3306
